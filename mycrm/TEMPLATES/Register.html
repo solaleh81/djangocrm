@@ -3,17 +3,16 @@
 {% block content %}
 
 
-<div class="col-4 offset-4">
+    <div class="col-4 offset-4">
 
-    <h1>Login</h1>
-    <form action="{% url 'home' %}" method="post">
+    <h1>Register</h1>
+    <form action="{% url 'Register' %}" method="post">
         {% csrf_token %}
-    {{ form }}
-
-        <button type="submit" class="btn btn-secondary">Register</button>
+           {{form.as_p}}
+    <button type="submit" class="btn btn-secondary">Register</button>
 
     </form>
-</div>
+    </div>
 
 
 {% endblock %}
