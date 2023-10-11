@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import SignUpForm
 
+
 def home(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -20,27 +21,26 @@ def home(request):
     else:
         return render(request, 'home.html')
 
+
 def logout_user(request):
     logout(request)
-    messages.success(request,"You have been logout succesfully")
+    messages.success(request, "You have been logout succesfully")
     return redirect('home')
 
+
 def register(request):
-    form=SignUpForm()
+    form = SignUpForm()
     if request.method == 'POST':
-        form=SignUpForm(request.POST)
+        form = SignUpForm(request.POST)
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
         if form.is_valid():
             form.save()
             messages.success(request, "You have succesfully Register.")
             return redirect('home')
-        else:
-            messages.success(request, "You must writ correct data!!!")
+        elif password1 != password2:
+            messages.error(request, "Your password and confirm password are not the same!")
             return redirect('Register')
-    else:
-        form = SignUpForm()
-        return render(request, 'Register.html', {'form': form})
 
-    return render(request, 'Register.html')
-
-
+    return render(request, 'Register.html', {'form': form})
 
