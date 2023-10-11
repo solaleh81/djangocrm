@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.contrib import messages
-
+from .forms import SignUpForm
 
 def home(request):
     if request.method == 'POST':
@@ -24,3 +24,23 @@ def logout_user(request):
     logout(request)
     messages.success(request,"You have been logout succesfully")
     return redirect('home')
+
+def register(request):
+    form=SignUpForm()
+    if request.method == 'POST':
+        form=SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "You have succesfully Register.")
+            return redirect('home')
+        else:
+            messages.success(request, "You must writ correct data!!!")
+            return redirect('Register')
+    else:
+        form = SignUpForm()
+        return render(request, 'Register.html', {'form': form})
+
+    return render(request, 'Register.html')
+
+
+
